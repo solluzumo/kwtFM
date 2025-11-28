@@ -5,13 +5,17 @@ from pydantic import Field
 
 class FullUserSchema(WithIDSchema):
 
-    login: str | None = Field(None)
+    login: str
 
-    password: str | None = Field(None)
+    password: str
 
-    active: bool | None = Field(True)
+    active: bool
 
-    is_admin: bool | None = Field(True)
+    is_admin: bool
+
+    email: str
+
+    info: str
 
     class Config:
         from_attributes = True
