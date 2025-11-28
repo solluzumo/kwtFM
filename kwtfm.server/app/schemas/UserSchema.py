@@ -10,6 +10,8 @@ class UserSchema(WithIDSchema):
 
     active: bool | None = Field(True)
 
+
+
     class Config:
 
         from_attributes = True
