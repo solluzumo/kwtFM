@@ -31,13 +31,13 @@ class UserRouter(EntityBaseRouter):
     def add_routes(self):
 
         self.router.get(
-            "/{id}", 
+            "/{id}",
             response_model=UserSchema,
             description="Получение информации о пользователе.",
             )(self.read)
 
         self.router.post(
-            "s/table", 
+            "s/table",
             response_model=ListResponseSchema[UserSchema],
             description="Получение списка пользователей.",
             )(self.batch_read)

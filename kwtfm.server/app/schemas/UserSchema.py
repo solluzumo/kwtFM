@@ -6,9 +6,11 @@ from pydantic import Field
 
 class UserSchema(WithIDSchema):
 
-    login: str | None = Field(None)
+    login: str
 
-    active: bool | None = Field(True)
+    active: bool
+
+    info: str
 
     class Config:
 
