@@ -1,4 +1,4 @@
-from routing.user import user_router
+from app.routing.user import user_router
 
 
 routers_list = [ 
