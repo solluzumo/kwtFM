@@ -1,0 +1,24 @@
+services:
+  database:
+    image: postgres:latest
+    volumes:
+      - postgres:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=kwt
+      - POSTGRES_PASSWORD=kwtDatabase
+      - POSTGRES_DB=development
+    user: postgres
+    ports:
+      - '127.0.0.1:5432:5432'
+    command: postgres -c shared_preload_libraries=pg_stat_statements -c pg_stat_statements.max=500 -c pg_stat_statements.track=top -c pg_stat_statements.track_utility=true -c pg_stat_statements.save=false
+  redis:
+    restart: 'always'
+    image: redis:latest
+    volumes:
+      - redis:/data
+
+volumes:
+  postgres:
+    driver: local
+  redis:
+    driver: local
