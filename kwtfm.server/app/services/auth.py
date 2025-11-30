@@ -1,7 +1,7 @@
 import bcrypt
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.user import UserModel
+from app.models.users import UserModel
 from app.schemas.LoginResultSchema import LoginResultSchema
 from app.schemas.LoginSchema import LoginSchema
 from app.services.database import DBService

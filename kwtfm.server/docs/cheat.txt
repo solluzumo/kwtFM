@@ -1,0 +1,40 @@
+cd C:\btw\projects\kwtFM\kwtfm.server
+
+----------------ОТКЛЮЧИТЬ---------------------------------
+
+docker compose -f database.docker-compose.yml down
+docker compose -f database.docker-compose.yml down -v
+
+docker compose -f testing.docker-compose.yml down
+docker compose -f testing.docker-compose.yml down -v
+
+-----------------ЗАПУСК--------------------------------
+
+docker compose -f database.docker-compose.yml build --no-cache
+docker compose -f database.docker-compose.yml up -d
+
+docker compose -f testing.docker-compose.yml build --no-cache
+docker compose -f testing.docker-compose.yml up -d
+
+
+----------------ПОДКЛЮЧЕНИЕ К БД-----------------
+
+psql -h localhost -U kwt -d development
+пароль kwtDatabase
+
+---------------ПОРТ-----------------
+netstat -aon | findstr :5432
+
+tasklist /FI "PID eq "
+
+taskkill /PID 1234 /F
+
+
+-----------alembic--------------
+alembic current
+alembic upgrade head
+alembic revision --autogenerate -m ""
+
+
+
+TODO:

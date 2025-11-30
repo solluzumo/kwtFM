@@ -5,6 +5,7 @@ from sqlalchemy import Boolean, String, BigInteger, DateTime
 from sqlalchemy.orm import Mapped, mapped_column
 
 
+#Вся информация о треке + время загрузки и время изменения
 class TrackModel(DBModelBase):
     __tablename__ = "tracks"
     

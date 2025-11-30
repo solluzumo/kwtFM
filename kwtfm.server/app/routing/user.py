@@ -13,7 +13,7 @@ from app.schemas.BatchUpdateResponseSchema import BatchUpdateResponseSchema
 from app.schemas.ListResponseSchema import ListResponseSchema
 from app.schemas.UserSchema import UserSchema
 from app.schemas.FullUserSchema import FullUserSchema
-from app.services.database import DBService
+from app.services.user_service import UserService
 from datetime import datetime
 
 class UserRouter(EntityBaseRouter):
@@ -22,7 +22,7 @@ class UserRouter(EntityBaseRouter):
     ):
         super().__init__(
             UserModel,
-            DBService,
+            UserService,
             FullUserSchema,
         )
 
@@ -62,37 +62,12 @@ class UserRouter(EntityBaseRouter):
 
     async def create(self, user: FullUserSchema, session: AsyncSession = Depends(get_session)):
 
-        service = self.service(UserModel, session, UserSchema)
+        service = UserService(session=session)
 
-        userDict = user.model_dump()
+        result = await service.create_user(user)
+        
+        return result
 
-        # Проверяем, что пароль передан
-        if not userDict["password"]:
-            raise HTTPException(status_code=400, detail="Password is required")
-
-        # Проверяем, что пароль не пустой
-        if len(userDict["password"]) < 5:
-            raise HTTPException(status_code=400, detail="Password is too short")
-
-        # Проверяем, что пользователь с таким email не существует
-        userExists = await service.getOneBy("login", userDict["login"])
-        if userExists:
-            raise HTTPException(status_code=400, detail="Login занят")
-
-        # Хешируем пароль
-        hashed_password = bcrypt.hashpw(userDict["password"].encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
-
-        del userDict["password"]
-
-        userDict["created_at"] = func.now()
-        userDict["hash"] = hashed_password
-
-        users = await service.batch_insert([userDict])
-
-        # Преобразуем модель в схему
-        result = self.schema.model_validate(users[0])
-
-        return JSONResponse(status_code=200, content=jsonable_encoder(result))
 
     async def update(self, id: int, user: FullUserSchema, session: AsyncSession = Depends(get_session)):
 

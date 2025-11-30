@@ -14,8 +14,14 @@ class UserModel(DBModelBase):
 
     hash: Mapped[str] = mapped_column(String, nullable=False)
 
+    active:Mapped[bool] = mapped_column(Boolean, nullable=False)
+
     is_admin: Mapped[bool] = mapped_column(Boolean, nullable=False)
 
     email: Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
 
     info: Mapped[str] = mapped_column(String(255), nullable=True)
+
+    created_at: Mapped[datetime] = mapped_column(String(255), nullable=True)
+    
+    updated_at: Mapped[datetime] = mapped_column(String(255), nullable=True)
